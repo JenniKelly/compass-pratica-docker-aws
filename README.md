@@ -14,6 +14,7 @@ Este projeto se consistiu na implementação de um ambiente WordPress utilizando
 A solução foi estruturada com contêineres Docker em uma instância EC2, integrada a um banco de dados RDS MySQL para gerenciamento eficiente de dados. O armazenamento de arquivos estáticos foi feito com AWS EFS, permitindo compartilhamento entre múltiplas instâncias, enquanto um Load Balancer foi configurado para otimizar a distribuição de tráfego.
 
 
+
 ## 🛠 Tecnologias Utilizadas  
 - **Docker** para containerização  
 - **AWS EC2** para hospedagem  
@@ -177,8 +178,7 @@ Quando o sistema de arquivos carrega por completo fica disponível a ação de m
 ```bash 
 
 # Monta o sistema de arquivos da Amazon EFS
-sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport <id-amazon>:/ /mnt/efs
-
+sudo mount -t efs -o tls <ID_EFS>:/ /mnt/efs
 
 ```
 
