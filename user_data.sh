@@ -1,18 +1,24 @@
 #!/bin/bash
 
-# Atualiza o sistema e instala dependências
+# Atualiza o sistema e pacotes
 sudo apt-get update -y
 sudo apt-get upgrade -y
+
+# Instala dependências
 sudo apt-get install -y docker.io
 sudo apt-get install -y mysql-client
-sudo apt install -y amazon-efs-utils
 sudo apt install -y nfs-common
+sudo apt-get -y install git binutils rustc cargo pkg-config libssl-dev
+sudo git clone https://github.com/aws/efs-utils
+sudo cd efs-utils
+sudo ./build-deb.sh
+sudo sudo apt-get -y install ./build/amazon-efs-utils*deb
 
 # Cria o diretório efs 
 sudo mkdir -p /mnt/efs
 
 #  Monta um sistema de arquivos da Amazon Elastic File System (EFS) no Linux
-sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-03e4c17f4a8e4c0be.efs.us-east-1.amazonaws.com:/ /mnt/efs
+sudo mount -t efs -o tls <ID_EFS>:/ /mnt/efs
 
 # Instalar docker-compose
 sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -38,9 +44,9 @@ services:
     ports:
       - "80:80"
     environment:
-      WORDPRESS_DB_HOST: wordpress-db.crqg2o2sia8o.us-east-1.rds.amazonaws.com:3306
-      WORDPRESS_DB_USER: admin
-      WORDPRESS_DB_PASSWORD: patopatoganso
+      WORDPRESS_DB_HOST: <ENDPOINT_RDS>:3306
+      WORDPRESS_DB_USER: <USER_DB>
+      WORDPRESS_DB_PASSWORD: <SENHA_DB>
       WORDPRESS_DB_NAME: wordpress
     volumes:
       - /mnt/efs:/var/www/html
