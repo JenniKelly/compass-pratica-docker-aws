@@ -12,7 +12,7 @@ sudo apt-get -y install git binutils rustc cargo pkg-config libssl-dev
 sudo git clone https://github.com/aws/efs-utils
 sudo cd efs-utils
 sudo ./build-deb.sh
-sudo sudo apt-get -y install ./build/amazon-efs-utils*deb
+sudo apt-get -y install ./build/amazon-efs-utils*deb
 
 # Cria o diretório efs 
 sudo mkdir -p /mnt/efs
